@@ -4,6 +4,8 @@ Changelog
 v0.12.1:
  - Bug fixing
    * Ensure peer ID is generated upon app launch
+   * Fix Yen amount formatting
+   * Adapt step size to the value of each currency
 
 v0.12.0:
 
