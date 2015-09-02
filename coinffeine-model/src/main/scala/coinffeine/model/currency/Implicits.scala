@@ -21,5 +21,6 @@ object Implicits {
     def BTC: BitcoinAmount = Bitcoin(i)
     def EUR: FiatAmount = Euro(i)
     def USD: FiatAmount = UsDollar(i)
+    def JPY: FiatAmount = Yen(i)
   }
 }

@@ -10,6 +10,8 @@ class CurrencyAmountFormatterTest extends UnitTest {
     instance.format(12.50.EUR) shouldBe "12.50EUR"
     instance.format(-12.50.BTC) shouldBe "-12.50000000BTC"
     instance.format(0.USD) shouldBe "0.00USD"
+    instance.format(250.JPY) shouldBe "250JPY"
+    instance.format(0.JPY) shouldBe "0JPY"
   }
 
   it should "format a currency amount with symbol position other than preferred" in {
@@ -22,11 +24,13 @@ class CurrencyAmountFormatterTest extends UnitTest {
     instance.formatMissing(Euro) shouldBe "_.__EUR"
     instance.formatMissing(UsDollar) shouldBe "_.__USD"
     instance.formatMissing(Bitcoin) shouldBe "_.________BTC"
+    instance.formatMissing(Yen) shouldBe "_JPY"
   }
 
   it should "format missing currency amount with symbol position other than preferred" in {
     instance.formatMissing(Euro, Currency.SymbolPrefixed) shouldBe "EUR_.__"
     instance.formatMissing(UsDollar, Currency.SymbolPrefixed) shouldBe "USD_.__"
     instance.formatMissing(Bitcoin, Currency.SymbolPrefixed) shouldBe "BTC_.________"
+    instance.formatMissing(Yen, Currency.SymbolPrefixed) shouldBe "JPY_"
   }
 }
