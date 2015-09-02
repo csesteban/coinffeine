@@ -203,7 +203,7 @@ object CoinffeinePeerActor {
           val collaborators = OrderActor.Collaborators(wallet, paymentProcessor, submission,
             gateway, bitcoinPeer, blockchain, archive)
           OrderActor.props(exchangeActorProps, bitcoinPlatform.network, amountsCalculator, order,
-            collaborators, configProvider.messageGatewaySettings().peerId)
+            collaborators, configProvider.messageGatewaySettings().peerId.get)
         }
 
         override val submissionProps = SubmissionSupervisor.props(gateway, protocolConstants)

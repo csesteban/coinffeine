@@ -143,7 +143,7 @@ class OverlayMessageGatewayIT extends fixture.FlatSpec with ShouldMatchers with 
                       networkProperties: DefaultCoinffeineNetworkProperties,
                       minConnections: Int): (ActorRef, TestProbe) = {
       val probe = TestProbe()(system)
-      val ref = createMessageGateway(MessageGatewaySettings(peerId, connectionRetryInterval), system)
+      val ref = createMessageGateway(MessageGatewaySettings(Some(peerId), connectionRetryInterval), system)
       probe.send(ref, Service.Start {})
       probe.expectMsg(Service.Started)
       waitForConnections(networkProperties, minConnections)

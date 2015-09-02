@@ -1,8 +1,9 @@
 Changelog
 =========
 
-v0.12.0:
+v0.12.1:
  - Bug fixing
+   * Ensure peer ID is generated upon app launch
 
 v0.12.0:
 

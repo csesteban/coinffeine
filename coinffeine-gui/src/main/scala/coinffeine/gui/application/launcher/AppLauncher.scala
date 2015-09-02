@@ -23,6 +23,7 @@ trait AppLauncher { this: ProductionCoinffeineComponent =>
       _ <- new AcquirePidFileAction(configProvider.dataPath).apply()
       _ <- new DataMigrationAction(configProvider).apply()
       _ <- new RunWizardAction(configProvider, stage.scene.value.getWindow, network).apply()
+      _ <- new EnsurePeerIdAction(configProvider).apply()
       _ <- new AppStartAction(app).apply()
       _ <- new CheckForUpdatesAction().apply()
     } yield {
