@@ -139,7 +139,7 @@ class OverlayMessageGatewayTest
 
   trait FreshGateway {
     private val settings = MessageGatewaySettings(
-      peerId = PeerId("0" * 19 + "1"),
+      peerId = Some(PeerId("0" * 19 + "1")),
       connectionRetryInterval = 1.second.dilated
     )
     val overlay = new MockOverlayNetwork(protocolSerialization)

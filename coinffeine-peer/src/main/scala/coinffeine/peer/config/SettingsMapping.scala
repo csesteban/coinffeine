@@ -92,27 +92,14 @@ object SettingsMapping extends TypesafeConfigImplicits {
   implicit object MessageGateway extends SettingsMapping[MessageGatewaySettings] {
 
     override def fromConfig(configPath: File, config: Config) = MessageGatewaySettings(
-      peerId = PeerId(config.getString("coinffeine.peer.id")),
+      peerId = config.getStringOpt("coinffeine.peer.id").map(PeerId.apply),
       connectionRetryInterval = config.getSeconds("coinffeine.peer.connectionRetryInterval")
     )
 
     override def toConfig(settings: MessageGatewaySettings, config: Config) = config
-      .withValue("coinffeine.peer.id", configValue(settings.peerId.value))
+      .withOptValue("coinffeine.peer.id", settings.peerId.map(id => configValue(id.value)))
       .withValue("coinffeine.peer.connectionRetryInterval",
         configDuration(settings.connectionRetryInterval))
-
-    /** Ensure that the given config has a peer ID.
-      *
-      * If the given config already has a peer id, `None` is returned. Otherwise, a new random
-      * peer ID is generated and stored in a copy of the config that is returned as `Some`.
-      */
-    def ensurePeerId(config: Config): Option[Config] = {
-      config.getStringOpt("coinffeine.peer.id") match {
-        case Some(_) => None
-        case None => Some(
-          config.withValue("coinffeine.peer.id", configValue(PeerId.random().value)))
-      }
-    }
   }
 
   implicit object Relay extends SettingsMapping[RelaySettings] {

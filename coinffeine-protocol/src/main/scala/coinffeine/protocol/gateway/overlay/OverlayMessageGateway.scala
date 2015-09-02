@@ -24,6 +24,8 @@ private class OverlayMessageGateway(
     serialization: ProtocolSerialization) extends Actor with ServiceLifecycle[Unit]
   with EventStreamReporting with ActorLogging with IdConversions with CoinffeineEventProducer {
 
+  require(settings.peerId.isDefined, "peer ID is undefined")
+
   import context.dispatcher
 
   private val subscriptions = context.actorOf(SubscriptionManagerActor.props)
@@ -38,7 +40,7 @@ private class OverlayMessageGateway(
   override protected def stopped = delegateSubscriptionManagement
 
   private class ServiceExecution {
-    val overlayId = settings.peerId.toOverlayId
+    val overlayId = settings.peerId.get.toOverlayId
     val client = context.actorOf(overlay.clientProps)
 
     def start() = {

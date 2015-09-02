@@ -101,20 +101,20 @@ class SettingsMappingTest extends UnitTest with OptionValues {
     cfg.getBoolean("coinffeine.bitcoin.spv") shouldBe true
   }
 
-  val messageGatewayBasicSettings = makeConfig(
+  val messageGatewayBasicConfig = makeConfig(
     "coinffeine.peer.id" -> "1234",
     "coinffeine.peer.connectionRetryInterval" -> "10s"
   )
 
   "Message Gateway settings mapping" should "map basic settings from config" in {
-    val settings = fromConfig[MessageGatewaySettings](messageGatewayBasicSettings)
-    settings.peerId shouldBe PeerId("1234")
+    val settings = fromConfig[MessageGatewaySettings](messageGatewayBasicConfig)
+    settings.peerId shouldBe Some(PeerId("1234"))
     settings.connectionRetryInterval shouldBe 10.seconds
   }
 
   it should "map to config" in {
     val settings = MessageGatewaySettings(
-      peerId = PeerId("1234"),
+      peerId = Some(PeerId("1234")),
       connectionRetryInterval = 10.seconds
     )
     val cfg = SettingsMapping.toConfig(settings)
@@ -122,11 +122,9 @@ class SettingsMappingTest extends UnitTest with OptionValues {
     cfg.getDuration("coinffeine.peer.connectionRetryInterval", TimeUnit.SECONDS) shouldBe 10
   }
 
-  it should "ensure peer ID" in {
-    val settings = amendConfig(messageGatewayBasicSettings, "coinffeine.peer.id" -> null)
-    val cfg = SettingsMapping.MessageGateway.ensurePeerId(settings)
-    cfg shouldBe 'defined
-    Try(PeerId(cfg.get.getString("coinffeine.peer.id"))) shouldBe 'success
+  it should "accept missing peer ID" in {
+    val settings = fromConfig[MessageGatewaySettings](messageGatewayBasicConfig.withoutPath("coinffeine.peer.id"))
+    settings.peerId shouldBe 'empty
   }
 
   val relayServerBasicSettings = makeConfig(
