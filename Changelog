@@ -2,6 +2,9 @@ Changelog
 =========
 
 v0.12.0:
+ - Bug fixing
+
+v0.12.0:
 
  - Support for all the OKPay-supported currencies, one at a time.
  - Bug fixing
