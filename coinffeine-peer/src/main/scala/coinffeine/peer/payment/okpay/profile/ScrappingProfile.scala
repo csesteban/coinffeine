@@ -140,15 +140,15 @@ class ScrappingProfile private (val client: WebClient) extends Profile with Lazy
         .getOrElse(
           throw new ProfileException(s"Error on retrieve verification status.")
         ).getTextContent.trim
-    VerificationStatusNames.get(verificationStatusName).getOrElse(
-      throw new ProfileException(
-        s"Unknown verification status: '$verificationStatusName'")
+    VerificationStatusNames.getOrElse(
+      verificationStatusName,
+      throw new ProfileException(s"Unknown verification status: '$verificationStatusName'")
     )
   }
 }
 
 object ScrappingProfile {
-  private val OkPayBaseUrl = "https://www.okpay.com"
+  private val OkPayBaseUrl = "https://secure.okpay.com"
   private val SeedTokenLength = 25
   private val AccountModeButtons = Map[AccountMode, String](
     AccountMode.Business -> "cbxMerchant",
