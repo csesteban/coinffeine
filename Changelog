@@ -6,6 +6,7 @@ v0.12.1:
    * Ensure peer ID is generated upon app launch
    * Fix Yen amount formatting
    * Adapt step size to the value of each currency
+   * Update setup wizard to changes in OKPay website
 
 v0.12.0:
 
